@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA101 — Installing Ubuntu Desktop in Oracle VirtualBox</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .toc { background: var(--code-bg); padding: 1.25rem 1.5rem; border-radius: var(--radius); margin-bottom: 2em; }
+    .toc h2 { margin-top: 0; font-size: 1.1rem; }
+    .toc ol { padding-left: 1.25em; margin-bottom: 0; }
+    .toc li { margin-bottom: 0.25em; font-size: 0.925rem; }
+    .step-num { display: inline-block; background: var(--accent); color: #fff; width: 1.6em; height: 1.6em; line-height: 1.6em; text-align: center; border-radius: 50%; font-size: 0.85rem; font-weight: 600; margin-right: 0.4em; }
+    .spec-table td:first-child { font-weight: 500; white-space: nowrap; }
+    .problem-card { background: var(--code-bg); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+    .problem-card h4 { margin: 0 0 0.4em 0; font-size: 0.95rem; color: var(--red); }
+    .problem-card p { margin: 0.25em 0; font-size: 0.925rem; }
+  </style>
+</head>
+<body>
+
+<h1>Installing Ubuntu Desktop in Oracle VirtualBox</h1>
+<p class="meta-line">SA101 — System Administration and Maintenance &middot; Step-by-Step Guide</p>
+
+<div class="callout callout-danger">
+  <strong>IMPORTANT SAFETY RULES</strong><br>
+  1. This activity installs Ubuntu <strong>INSIDE A VIRTUAL MACHINE only</strong>.<br>
+  2. Do <strong>NOT</strong> install Ubuntu directly on your laptop.<br>
+  3. Do <strong>NOT</strong> create a dual-boot setup.<br>
+  4. Do <strong>NOT</strong> modify, delete, shrink, or format your real Windows drive.<br>
+  5. When Ubuntu says "Erase disk," it must refer <strong>only</strong> to the virtual disk inside VirtualBox.<br>
+  6. Back up important files before starting.<br>
+  7. Do not show your password in screenshots or reports.
+</div>
+
+<nav class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#check">Check your computer</a></li>
+    <li><a href="#download-ubuntu">Download Ubuntu Desktop</a></li>
+    <li><a href="#download-vb">Download and install VirtualBox</a></li>
+    <li><a href="#create-vm">Create the virtual machine</a></li>
+    <li><a href="#hardware">Allocate RAM, CPUs, and disk</a></li>
+    <li><a href="#settings">Review VM settings</a></li>
+    <li><a href="#install">Install Ubuntu</a></li>
+    <li><a href="#account">Create your Ubuntu account</a></li>
+    <li><a href="#first-login">First login and updates</a></li>
+    <li><a href="#guest-additions">Install Guest Additions</a></li>
+    <li><a href="#verify">Verify the installation</a></li>
+    <li><a href="#snapshot">Create a clean snapshot</a></li>
+    <li><a href="#shutdown">Proper shutdown</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#checklist">Completion checklist</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="check"><span class="step-num">1</span>Check your computer</h2>
+
+<p>Your Windows PC needs these minimum specs:</p>
+
+<table class="spec-table">
+  <tr><th>Requirement</th><th>Minimum</th><th>Recommended</th></tr>
+  <tr><td>OS</td><td colspan="2">Windows 10 or 11, 64-bit</td></tr>
+  <tr><td>RAM</td><td>8 GB</td><td>16 GB+</td></tr>
+  <tr><td>Free storage</td><td colspan="2">40–50 GB</td></tr>
+  <tr><td>Internet</td><td colspan="2">Stable connection</td></tr>
+  <tr><td>Virtualization</td><td colspan="2">Enabled in hardware</td></tr>
+</table>
+
+<p><strong>Check if virtualization is enabled:</strong></p>
+<ol>
+  <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> → Task Manager</li>
+  <li>Click <strong>Performance</strong> → <strong>CPU</strong></li>
+  <li>Look for "Virtualization" — it should say <strong>Enabled</strong></li>
+</ol>
+
+<div class="callout callout-warn">
+  If it says <strong>Disabled</strong>, do NOT change BIOS settings yourself. Tell your instructor. BIOS/UEFI varies by laptop brand.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="download-ubuntu"><span class="step-num">2</span>Download Ubuntu Desktop</h2>
+<ol>
+  <li>Go to <a href="https://ubuntu.com/download/desktop" target="_blank">https://ubuntu.com/download/desktop</a></li>
+  <li>Find the latest <strong>Ubuntu Desktop LTS</strong> release</li>
+  <li>Select the <strong>Intel or AMD 64-bit</strong> download</li>
+  <li>Wait for the download to finish</li>
+  <li>Confirm the file ends in <code>.iso</code> (e.g. <code>ubuntu-26.04-desktop-amd64.iso</code>)</li>
+</ol>
+
+<div class="callout callout-info">
+  Do <strong>not</strong> extract or open the ISO file. Just remember where you saved it.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="download-vb"><span class="step-num">3</span>Download and install Oracle VirtualBox</h2>
+<ol>
+  <li>Go to <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">https://www.virtualbox.org/wiki/Downloads</a></li>
+  <li>Under "VirtualBox Platform Packages," click <strong>Windows hosts</strong></li>
+  <li>Run the downloaded installer (ends in <code>-Win.exe</code>)</li>
+  <li>If Windows asks "Do you want to allow this app to make changes?" → click <strong>Yes</strong></li>
+  <li><strong>Next</strong> → keep defaults → <strong>Next</strong></li>
+  <li>VirtualBox will warn that the network will temporarily disconnect. Save any online work, then continue</li>
+  <li>Click <strong>Install</strong> → allow driver installation</li>
+  <li>Keep "Start Oracle VirtualBox" checked → <strong>Finish</strong></li>
+</ol>
+
+<div class="callout callout-info">
+  The VirtualBox Extension Pack is <strong>not</strong> required for this activity.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="create-vm"><span class="step-num">4</span>Create the virtual machine</h2>
+<ol>
+  <li>Open Oracle VirtualBox → click <strong>New</strong></li>
+  <li>Fill in the first screen:
+    <table class="spec-table">
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>VM Name</td><td><code>SA101-Ubuntu-{yourname}</code></td></tr>
+      <tr><td>VM Folder</td><td>Default</td></tr>
+      <tr><td>ISO Image</td><td>Click dropdown → <strong>Other</strong> → select your <code>.iso</code> file</td></tr>
+      <tr><td>OS</td><td>Linux</td></tr>
+      <tr><td>OS Distribution</td><td>Ubuntu</td></tr>
+      <tr><td>OS Version</td><td>Ubuntu (64-bit)</td></tr>
+    </table>
+  </li>
+</ol>
+
+<div class="callout callout-danger">
+  <strong>Critical step:</strong> <strong>Uncheck "Proceed with Unattended Installation"</strong> — it is checked by default. If you leave it checked, VirtualBox creates a default "vboxuser" account and skips the Ubuntu installer. You won't see the installation steps.
+</div>
+
+<ol start="3">
+  <li>Click <strong>Next</strong></li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="hardware"><span class="step-num">5</span>Allocate RAM, CPUs, and disk</h2>
+
+<p>VirtualBox 7.2 shows all hardware on one screen. Set these values:</p>
+
+<table class="spec-table">
+  <tr><th>Resource</th><th>8 GB RAM host</th><th>16 GB RAM host</th><th>24 GB+ RAM host</th></tr>
+  <tr><td>Base Memory</td><td>4096 MB</td><td>6144 MB</td><td>8192 MB</td></tr>
+  <tr><td>Number of CPUs</td><td>2</td><td>2–4</td><td>4</td></tr>
+  <tr><td>Disk Size</td><td colspan="3">40 GB</td></tr>
+  <tr><td>Use EFI</td><td colspan="3">Unchecked</td></tr>
+</table>
+
+<div class="callout callout-warn">
+  <strong>Rules:</strong>
+  <ul style="margin-bottom:0">
+    <li>Keep sliders in the <strong>green area</strong> — never assign all your RAM or all CPU cores</li>
+    <li>Windows still needs resources to run</li>
+    <li>Setting too little RAM (e.g. 2 GB) will cause the installer to freeze</li>
+  </ul>
+</div>
+
+<p>Click <strong>Next</strong> → review summary → <strong>Finish</strong>.</p>
+
+<div class="callout callout-info">
+  The virtual disk is a <strong>file</strong> stored on your Windows drive. It is not a new physical disk.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="settings"><span class="step-num">6</span>Review VM settings</h2>
+
+<p>Before starting the VM, verify these settings:</p>
+<ol>
+  <li>Select your Ubuntu VM → click <strong>Settings</strong></li>
+  <li>Check each section:
+    <table class="spec-table">
+      <tr><th>Section</th><th>Setting</th><th>Value</th></tr>
+      <tr><td>System → Motherboard</td><td>Boot Order</td><td>Optical, Hard Disk</td></tr>
+      <tr><td>System → Processor</td><td>Processors</td><td>As allocated above</td></tr>
+      <tr><td>Display</td><td>Graphics Controller</td><td><code>VMSVGA</code></td></tr>
+      <tr><td>Display</td><td>Video Memory</td><td><strong>128 MB</strong></td></tr>
+      <tr><td>Display</td><td>3D Acceleration</td><td>Disabled (for now)</td></tr>
+      <tr><td>Storage</td><td>Optical Drive</td><td>Ubuntu ISO attached</td></tr>
+      <tr><td>Network</td><td>Attached to</td><td><strong>NAT</strong></td></tr>
+    </table>
+  </li>
+  <li>Click <strong>OK</strong></li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="install"><span class="step-num">7</span>Install Ubuntu</h2>
+
+<ol>
+  <li>Select the VM → click <strong>Start</strong></li>
+  <li>At the GRUB boot menu, select <strong>Try or Install Ubuntu</strong> and press Enter</li>
+</ol>
+
+<div class="callout callout-info">
+  <strong>Black screen or garbled graphics?</strong> Restart and choose <strong>Ubuntu (safe graphics)</strong> instead.
+</div>
+
+<ol start="3">
+  <li>Work through the Ubuntu installer:
+    <table class="spec-table">
+      <tr><th>Screen</th><th>What to choose</th></tr>
+      <tr><td>Language</td><td>English</td></tr>
+      <tr><td>Accessibility</td><td>Default (skip unless needed)</td></tr>
+      <tr><td>Keyboard</td><td>English (US) or your layout</td></tr>
+      <tr><td>Network</td><td>Connect (NAT provides internet automatically)</td></tr>
+      <tr><td>Type</td><td><strong>Install Ubuntu</strong> (not "Try")</td></tr>
+      <tr><td>Installation type</td><td>Interactive Installation</td></tr>
+      <tr><td>Applications</td><td>Default Selection</td></tr>
+    </table>
+  </li>
+</ol>
+
+<p><strong>Third-party software — check both boxes:</strong></p>
+<ul>
+  <li>☑ <strong>Graphics &amp; Wi-Fi drivers</strong> — installs NVIDIA and similar proprietary drivers. In a VM this has little effect, but it's harmless.</li>
+  <li>☑ <strong>Additional media formats</strong> — installs MP3, MP4, MOV codecs. Useful if you play media.</li>
+</ul>
+
+<div class="callout callout-info">
+  These require internet. If offline, leave unchecked — installation can continue without them.
+</div>
+
+<ol start="4">
+  <li>
+    On the disk selection screen, choose <strong>"Erase disk and install Ubuntu"</strong>
+    <div class="callout callout-danger">
+      This is safe <strong>ONLY</strong> because Ubuntu is inside a VM and sees only the virtual disk. Never choose this on a physical computer unless you're sure which disk you're erasing.
+    </div>
+  </li>
+  <li>On the <strong>Encryption and file system</strong> screen, select <strong>No encryption</strong>
+    <div class="callout callout-info">
+      Encryption is unnecessary for a classroom VM and adds a passphrase prompt on every boot.
+    </div>
+  </li>
+  <li>Click <strong>Install</strong></li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="account"><span class="step-num">8</span>Create your Ubuntu account</h2>
+
+<table class="spec-table">
+  <tr><th>Field</th><th>What to enter</th><th>Example</th></tr>
+  <tr><td>Your Name</td><td>Your full name</td><td>Juan</td></tr>
+  <tr><td>Computer Name</td><td><code>sa101-ubuntu-surname</code> (lowercase, hyphens, no spaces)</td><td>sa101-ubuntu-juan</td></tr>
+  <tr><td>Username</td><td>Simple lowercase, no spaces</td><td>juan</td></tr>
+  <tr><td>Password</td><td>Strong — <strong>remember it, don't show it</strong></td><td>••••••••</td></tr>
+  <tr><td>Login</td><td>Require my password to log in</td><td></td></tr>
+</table>
+
+<ol start="2">
+  <li>Select your time zone (Philippines → <strong>Asia/Manila</strong>)</li>
+  <li>Review the summary → click <strong>Install</strong></li>
+  <li>Wait for installation to finish → click <strong>Restart Now</strong></li>
+</ol>
+
+<div class="callout callout-warn">
+  <strong>"Please remove the installation medium, then press ENTER"</strong> — this is normal.<br>
+  Try: <strong>Devices → Optical Drives → Remove Disk from Virtual Drive</strong>, then press Enter.<br>
+  If the option is greyed out, VirtualBox already auto-ejected it — just press Enter.
+</div>
+
+<div class="callout callout-danger">
+  <strong>Installer freeze on "Copying files"?</strong> Your VM probably has too little RAM or CPU. Power off the VM, go to <strong>Settings → System → Processor</strong>, increase to at least 4096 MB RAM / 2 CPUs. Start again — it will resume.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="first-login"><span class="step-num">9</span>First login and updates</h2>
+
+<ol>
+  <li>Wait for the Ubuntu login screen</li>
+  <li>Select your account → enter your password</li>
+  <li>Skip any online-account setup (unless instructor requires it)</li>
+  <li>Open Terminal: <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd></li>
+  <li>Run these one at a time:
+    <pre>sudo apt update
+sudo apt upgrade -y
+sudo snap refresh</pre>
+  </li>
+</ol>
+
+<div class="callout callout-info">
+  When you type a password after <code>sudo</code>, <strong>no dots or stars appear</strong>. This is normal. Type carefully and press Enter.
+</div>
+
+<ol start="6">
+  <li>Restart: <pre>sudo reboot</pre></li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="guest-additions"><span class="step-num">10</span>Install Guest Additions</h2>
+
+<p>Guest Additions improves screen resolution, mouse integration, shared clipboard, and drag-and-drop. Two methods:</p>
+
+<h3>Method 1 — Graphical (try first)</h3>
+<ol>
+  <li>Start Ubuntu and log in</li>
+  <li>VirtualBox menu: <strong>Devices → Insert Guest Additions CD Image</strong></li>
+  <li>If prompted, click <strong>Run</strong> → enter password → wait → restart</li>
+</ol>
+
+<div class="callout callout-warn">
+  <strong>"bzip2 not found" error?</strong> Open a terminal and run:<br>
+  <code>sudo apt install bzip2 tar -y</code><br>
+  Then re-insert the CD and run it again.
+</div>
+
+<h3>Method 2 — Terminal fallback</h3>
+<ol>
+  <li>Open Terminal</li>
+  <li>Install dependencies:
+    <pre>sudo apt install build-essential dkms linux-headers-$(uname -r) -y</pre>
+  </li>
+  <li><strong>Devices → Insert Guest Additions CD Image</strong></li>
+  <li>Open the Files app → open the mounted <code>VBox_GAs</code> disk</li>
+  <li>Right-click inside → <strong>Open in Terminal</strong></li>
+  <li>Run:
+    <pre>sudo sh ./VBoxLinuxAdditions.run</pre>
+  </li>
+  <li>Restart: <pre>sudo reboot</pre></li>
+</ol>
+
+<h3>After restart — enable the features</h3>
+<ol>
+  <li><strong>View → Auto-resize Guest Display</strong> — VM resizes with the window</li>
+  <li><strong>Devices → Shared Clipboard → Bidirectional</strong> — copy/paste between host and guest</li>
+  <li><strong>Devices → Drag and Drop → Bidirectional</strong> — drag files between host and guest</li>
+</ol>
+
+<!-- ============================================================ -->
+<h2 id="verify"><span class="step-num">11</span>Verify the installation</h2>
+
+<p>Open Terminal and run these commands:</p>
+
+<table class="spec-table">
+  <tr><th>Command</th><th>What it checks</th></tr>
+  <tr><td><code>whoami</code></td><td>Logged-in user</td></tr>
+  <tr><td><code>hostnamectl</code></td><td>Computer name and OS info</td></tr>
+  <tr><td><code>ip a</code></td><td>IP address</td></tr>
+  <tr><td><code>lsblk</code></td><td>Virtual disk and partitions</td></tr>
+  <tr><td><code>df -h</code></td><td>Disk usage</td></tr>
+  <tr><td><code>free -h</code></td><td>RAM usage</td></tr>
+  <tr><td><code>ping -c 4 8.8.8.8</code></td><td>Internet by IP</td></tr>
+  <tr><td><code>ping -c 4 ubuntu.com</code></td><td>DNS resolution</td></tr>
+</table>
+
+<div class="callout callout-info">
+  <strong>Expected results:</strong> Ubuntu starts without errors, you can log in, an IP is displayed, the virtual disk is detected, ping gets replies, updates finished without errors.
+</div>
+
+<div class="callout callout-info">
+  To stop a <code>ping</code> that won't end, press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="snapshot"><span class="step-num">12</span>Create a clean snapshot</h2>
+
+<p>A snapshot is a restore point. Create one now so you can always return to this clean state.</p>
+
+<ol>
+  <li>Shut down Ubuntu properly: <strong>Power menu → Power Off → Power Off</strong></li>
+  <li>In VirtualBox Manager: select your VM → <strong>Snapshots</strong> → <strong>Take</strong></li>
+  <li>Name: <code>Clean-Install-Updated</code></li>
+  <li>Description: <code>Ubuntu installed, updated, tested, and Guest Additions installed.</code></li>
+  <li>Click <strong>OK</strong></li>
+</ol>
+
+<div class="callout callout-warn">
+  Do <strong>not</strong> delete this snapshot unless instructed.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="shutdown"><span class="step-num">13</span>Proper shutdown</h2>
+
+<ol>
+  <li>Inside Ubuntu: click the <strong>Power menu</strong></li>
+  <li>Click <strong>Power Off</strong></li>
+  <li>Confirm Power Off</li>
+  <li>Wait until the VM window closes</li>
+</ol>
+
+<div class="callout callout-danger">
+  Avoid clicking "Power Off the Machine" in VirtualBox unless Ubuntu is frozen. It's like yanking the power cord — it can corrupt files.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="troubleshooting"><span class="step-num">14</span>Troubleshooting</h2>
+
+<div class="problem-card">
+  <h4>Problem: Ubuntu (64-bit) option is missing or VM won't start</h4>
+  <p><strong>Cause:</strong> Hardware virtualization is disabled.</p>
+  <p><strong>Fix:</strong> Check Task Manager → Performance → CPU → Virtualization. If disabled, inform your instructor.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: "No bootable medium found"</h4>
+  <p><strong>Cause:</strong> The Ubuntu ISO is not attached.</p>
+  <p><strong>Fix:</strong> Shut down → Settings → Storage → select the optical drive → attach the Ubuntu ISO → start again.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: Ubuntu installer starts again after installation</h4>
+  <p><strong>Cause:</strong> The ISO is still attached.</p>
+  <p><strong>Fix:</strong> Remove the ISO from the virtual optical drive and restart.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: No internet connection</h4>
+  <p><strong>Fix:</strong> Shut down → Settings → Network → enable Adapter 1 → set "Attached to" as <strong>NAT</strong> → start Ubuntu → run <code>ip a</code> and <code>ping -c 4 8.8.8.8</code>.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: VM is very slow or freezes during install</h4>
+  <p><strong>Cause:</strong> Too little RAM or CPU.</p>
+  <p><strong>Fix:</strong> Close unnecessary Windows apps. Increase VM to at least 4096 MB RAM / 2 CPUs. Keep sliders in the green zone.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: Black screen or display glitch</h4>
+  <p><strong>Fix:</strong> Shut down → Settings → Display → set Graphics Controller to <code>VMSVGA</code>, Video Memory to 128 MB, disable 3D Acceleration → start again. If still broken, boot with <strong>Ubuntu (safe graphics)</strong> from the GRUB menu.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: Mouse/keyboard is stuck inside the VM</h4>
+  <p><strong>Fix:</strong> Press the <strong>Host Key</strong> to release. Default on Windows: <kbd>Right Ctrl</kbd>.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: Guest Additions — "bzip2 not found"</h4>
+  <p><strong>Fix:</strong> Run <code>sudo apt install bzip2 tar -y</code> then retry, or use the terminal method instead.</p>
+</div>
+
+<div class="problem-card">
+  <h4>Problem: Forgot Ubuntu password</h4>
+  <p><strong>Fix:</strong> Do not guess repeatedly. Inform your instructor for the approved recovery procedure.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="checklist"><span class="step-num">15</span>Activity completion checklist</h2>
+
+<ul class="checklist">
+  <li>Virtualization is enabled</li>
+  <li>Ubuntu ISO downloaded from ubuntu.com</li>
+  <li>VirtualBox downloaded from virtualbox.org</li>
+  <li>VirtualBox installed successfully</li>
+  <li>New Ubuntu VM created with correct name</li>
+  <li>"Proceed with Unattended Installation" unchecked</li>
+  <li>RAM and CPU allocated safely (green zone)</li>
+  <li>40 GB virtual disk created</li>
+  <li>Network mode is NAT</li>
+  <li>Ubuntu installed on the virtual disk</li>
+  <li>Ubuntu account and computer name created</li>
+  <li>Ubuntu started and login worked</li>
+  <li>Ubuntu updated (<code>apt update</code>, <code>apt upgrade</code>, <code>snap refresh</code>)</li>
+  <li>Guest Additions installed</li>
+  <li>Shared clipboard and drag-and-drop enabled</li>
+  <li>Verification commands all pass (<code>whoami</code>, <code>hostnamectl</code>, <code>ip a</code>, <code>lsblk</code>, <code>ping</code>)</li>
+  <li>Clean snapshot created</li>
+</ul>
+
+<hr style="margin-top: 2em; margin-bottom: 1em;">
+
+<p style="font-size: 0.85rem; color: var(--muted);">
+  <strong>Need help?</strong> Ask your instructor or classmate. For the full reference, see the
+  <a href="SA101_Ubuntu_VirtualBox_Step_by_Step_Guide.txt">original SA101 guide</a>.
+  For official documentation, visit the
+  <a href="https://ubuntu.com/tutorials/install-ubuntu-desktop" target="_blank">Ubuntu Installation Tutorial</a> or the
+  <a href="https://www.virtualbox.org/manual/" target="_blank">VirtualBox User Manual</a>.
+</p>
+
+</body>
+</html>

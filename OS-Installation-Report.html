@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OS Installation Report — SA101</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .report-header { border-bottom: 2px solid var(--text); padding-bottom: 1em; margin-bottom: 2em; }
+    .report-header h1 { font-size: 1.5rem; margin-bottom: 0.25em; }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5em 2em; margin-bottom: 2em; font-size: 0.95rem; }
+    .field-grid dt { font-weight: 600; }
+    .field-grid dd { margin: 0; }
+    .screenshot { margin-bottom: 1.5em; }
+    .screenshot img { max-width: 100%; border: 1px solid var(--border); border-radius: var(--radius); }
+    .screenshot figcaption { font-size: 0.8rem; color: var(--muted); margin-top: 0.3em; }
+    .img-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1em; margin-bottom: 1.5em; }
+    .img-grid .screenshot { margin-bottom: 0; }
+    .img-grid .screenshot img { max-height: 260px; object-fit: contain; width: 100%; background: #fff; }
+    .reflection { background: var(--code-bg); padding: 1.25rem; border-radius: var(--radius); line-height: 1.7; }
+    @media print {
+      body { padding: 0.5in; }
+      .screenshot img { max-height: 3.5in; object-fit: contain; }
+      .img-grid .screenshot img { max-height: 2.5in; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-header">
+  <h1>OS Installation Report</h1>
+  <p class="meta-line">SA101 — System Administration and Maintenance</p>
+</div>
+
+<h2>Student Information</h2>
+<dl class="field-grid">
+  <dt>Student Name</dt><dd>John Rex Daves Rosani</dd>
+  <dt>Section</dt><dd>BSIT 4A</dd>
+</dl>
+
+<h2>Virtual Machine Details</h2>
+<dl class="field-grid">
+  <dt>VM Name</dt><dd>SA101-Ubuntu-Rex</dd>
+  <dt>Ubuntu Version</dt><dd>Ubuntu 26.04 LTS (Plucky Puffin)</dd>
+  <dt>RAM Allocation</dt><dd>8192 MB</dd>
+  <dt>Processor Allocation</dt><dd>4 CPUs</dd>
+  <dt>Virtual-Disk Size</dt><dd>40 GB (dynamically allocated)</dd>
+  <dt>Network Mode</dt><dd>NAT</dd>
+</dl>
+
+<!-- ============================================================ -->
+<h2>Screenshots</h2>
+
+<h3>VirtualBox VM Settings</h3>
+
+<div class="img-grid">
+  <figure class="screenshot">
+    <img src="docs/vm-settings-general.jpg" alt="VirtualBox VM settings - General">
+    <figcaption>Figure 1 — General: name, OS type, base memory</figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/vm-settings-motherboard.jpg" alt="VirtualBox VM settings - Motherboard">
+    <figcaption>Figure 2 — Motherboard: boot order, chipset</figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/vm-settings-processor.jpg" alt="VirtualBox VM settings - Processor">
+    <figcaption>Figure 3 — Processor: 4 CPUs</figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/vm-settings-display.jpg" alt="VirtualBox VM settings - Display">
+    <figcaption>Figure 4 — Display: 128 MB, VMSVGA</figcaption>
+  </figure>
+</div>
+
+<figure class="screenshot">
+  <img src="docs/vm-settings-network.jpg" alt="VirtualBox VM settings - Network" style="max-height: 260px; object-fit: contain;">
+  <figcaption>Figure 5 — Network: Adapter 1, NAT</figcaption>
+</figure>
+
+<h3>Ubuntu Desktop and Verification</h3>
+
+<figure class="screenshot">
+  <img src="docs/ubuntu desktop installed.jpg" alt="Ubuntu desktop after successful installation">
+  <figcaption>Figure 6 — Successful Ubuntu login / desktop</figcaption>
+</figure>
+
+<h3>Verification Commands</h3>
+
+<div class="img-grid">
+  <figure class="screenshot">
+    <img src="docs/hostnamectl.jpg" alt="hostnamectl command result">
+    <figcaption>Figure 7 — <code>hostnamectl</code></figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/ip a.jpg" alt="ip a command result">
+    <figcaption>Figure 8 — <code>ip a</code></figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/lsblk.jpg" alt="lsblk command result">
+    <figcaption>Figure 9 — <code>lsblk</code></figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/whoami.jpg" alt="whoami command result">
+    <figcaption>Figure 10 — <code>whoami</code></figcaption>
+  </figure>
+</div>
+
+<div class="img-grid">
+  <figure class="screenshot">
+    <img src="docs/ping 8.8.8.8.jpg" alt="ping 8.8.8.8 result">
+    <figcaption>Figure 11 — <code>ping -c 4 8.8.8.8</code></figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/ping ubuntu.jpg" alt="ping ubuntu.com result">
+    <figcaption>Figure 12 — <code>ping -c 4 ubuntu.com</code></figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/df -h.jpg" alt="df -h command result">
+    <figcaption>Figure 13 — <code>df -h</code></figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/free -h.jpg" alt="free -h command result">
+    <figcaption>Figure 14 — <code>free -h</code></figcaption>
+  </figure>
+</div>
+
+<!-- ============================================================ -->
+<h2>Problem Encountered</h2>
+
+<p>During the Guest Additions installation (Part 14), the graphical installer failed with the error: <strong>"bzip2 not found. Please install: bzip2 tar; and try again."</strong></p>
+
+<div class="img-grid">
+  <figure class="screenshot">
+    <img src="docs/bzip2 not found problem.jpg" alt="bzip2 not found error during Guest Additions install">
+    <figcaption>Figure 15 — The bzip2 error</figcaption>
+  </figure>
+  <figure class="screenshot">
+    <img src="docs/bzip2 and tar installation.jpg" alt="Installing bzip2 and tar packages">
+    <figcaption>Figure 16 — Installing the fix</figcaption>
+  </figure>
+</div>
+
+<h2>Solution Attempted</h2>
+
+<p>Installed the missing packages via terminal, then used the terminal method to install Guest Additions:</p>
+
+<pre>sudo apt install bzip2 tar -y
+sudo apt install build-essential dkms linux-headers-$(uname -r) -y
+sudo sh ./VBoxLinuxAdditions.run</pre>
+
+<p>After restarting Ubuntu, Guest Additions worked correctly. Shared clipboard and drag-and-drop were then enabled via <strong>Devices → Shared Clipboard → Bidirectional</strong>.</p>
+
+<!-- ============================================================ -->
+<h2>Reflection</h2>
+
+<div class="reflection">
+  <p><strong>"What did I learn from installing an operating system in a virtual machine?"</strong></p>
+
+  <p>I learned that installing an OS is not just clicking next over and over. There is a lot going on behind each step. You have to pick how much RAM and CPU to give the VM, make sure the virtual disk is big enough, and configure the network so it can reach the internet. If you rush through these parts, the install can freeze or fail.</p>
+
+  <p>When my installer froze, I had to figure out that it was because I only gave it 2GB of RAM. I bumped it to 8GB and it worked fine. When Guest Additions failed with the bzip2 error, I had to use the terminal to install the missing packages. These were small problems but they taught me to stay calm and actually read the error messages instead of panicking.</p>
+
+  <p>The biggest thing I took away is that virtualization is a safe way to practice. I can mess up the VM, delete it, and start over without hurting my actual computer. That makes it a great tool for learning system administration.</p>
+</div>
+
+<hr style="margin-top: 2em;">
+
+</body>
+</html>

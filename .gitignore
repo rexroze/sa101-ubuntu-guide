@@ -1,0 +1,10 @@
+# Large binaries
+*.iso
+*.exe
+*.pptx
+
+# Teach skill working files
+MISSION.md
+RESOURCES.md
+NOTES.md
+learning-records/

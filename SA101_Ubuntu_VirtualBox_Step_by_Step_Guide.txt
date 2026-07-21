@@ -1,0 +1,670 @@
+
+
+SA101 – SYSTEM ADMINISTRATION AND MAINTENANCE
+
+INSTALLING UBUNTU DESKTOP IN ORACLE VIRTUALBOX
+Host Operating System: Windows 10 or Windows 11
+
+Class Activity: Virtual Machine Installation Only
+
+============================================================
+IMPORTANT SAFETY RULES
+============================================================
+
+1. This activity installs Ubuntu INSIDE A VIRTUAL MACHINE only.
+2. Do NOT install Ubuntu directly on the laptop.
+3. Do NOT create a dual-boot setup for this activity.
+4. Do NOT modify, delete, shrink, or format the real Windows drive.
+5. When the Ubuntu installer says “Erase disk and install Ubuntu,” it must refer only
+   to the VIRTUAL DISK created inside VirtualBox.
+6. Back up important files before doing any operating-system activity.
+7. Do not submit or show your password in screenshots or reports.
+
+============================================================
+OFFICIAL DOWNLOAD LINKS
+============================================================
+
+Ubuntu Desktop:
+https://ubuntu.com/download/desktop
+
+Oracle VirtualBox:
+https://www.virtualbox.org/wiki/Downloads
+
+For Ubuntu:
+- Download the latest Ubuntu Desktop LTS version.
+- Choose the Intel or AMD 64-bit version for an ordinary Windows laptop.
+- The downloaded file should end in .iso.
+- Save it in an easy-to-find folder such as Downloads.
+
+For VirtualBox:
+- Under “VirtualBox Platform Packages,” click “Windows hosts.”
+- The downloaded installer should end in -Win.exe.
+- The VirtualBox Extension Pack is NOT required for this basic activity.
+
+============================================================
+PART 1 – CHECK THE COMPUTER BEFORE INSTALLATION
+============================================================
+
+Recommended host-computer resources:
+- Windows 10 or Windows 11, 64-bit
+- At least 8 GB RAM; 16 GB is recommended
+- At least 40–50 GB of free storage
+- Stable internet connection
+- Hardware virtualization enabled
+
+Check whether virtualization is enabled:
+
+1. Press Ctrl + Shift + Esc to open Task Manager.
+2. Click Performance.
+3. Click CPU.
+4. Look for “Virtualization.”
+5. It should display “Enabled.”
+
+If it displays “Disabled”:
+- Do not change BIOS/UEFI settings without permission.
+- Inform the instructor.
+- BIOS/UEFI settings differ by laptop brand and model.
+
+============================================================
+PART 2 – DOWNLOAD UBUNTU DESKTOP
+============================================================
+
+1. Open a web browser.
+2. Go to:
+   https://ubuntu.com/download/desktop
+3. Find the latest Ubuntu Desktop LTS release.
+4. Select the Intel or AMD 64-bit download.
+5. Wait until the download is complete.
+6. Confirm that the file ends in .iso.
+7. Do not extract or open the ISO file.
+8. Remember the folder where it was saved.
+
+Example filename:
+ubuntu-26.04-desktop-amd64.iso
+
+Note:
+The exact filename may change when a newer release becomes available.
+
+============================================================
+PART 3 – DOWNLOAD AND INSTALL ORACLE VIRTUALBOX
+============================================================
+
+1. Open:
+   https://www.virtualbox.org/wiki/Downloads
+2. Under “VirtualBox Platform Packages,” click “Windows hosts.”
+3. Wait for the installer to finish downloading.
+4. Open the downloaded VirtualBox installer.
+5. If Windows asks, “Do you want to allow this app to make changes?”
+   click Yes.
+6. Click Next on the setup window.
+7. Keep the default components selected.
+8. Keep the default installation folder unless the instructor tells you otherwise.
+9. Click Next.
+10. VirtualBox may warn that the network connection will temporarily disconnect
+    while its networking drivers are installed. Save online work, then continue.
+11. Click Install.
+12. Allow Windows to install the required VirtualBox drivers.
+13. Wait for the installation to finish.
+14. Keep “Start Oracle VirtualBox” checked.
+15. Click Finish.
+
+If the installer reports a missing prerequisite:
+- Do not download a random installer from an unknown website.
+- Take a screenshot of the error and show it to the instructor.
+
+============================================================
+PART 4 – CREATE THE UBUNTU VIRTUAL MACHINE
+============================================================
+
+1. Open Oracle VirtualBox.
+2. Click New.
+
+Enter the following:
+
+Name:
+SA101-Ubuntu-Username
+
+Example:
+SA101-Ubuntu-CPC
+
+Folder:
+Keep the default VirtualBox folder unless instructed otherwise.
+
+ISO Image:
+1. Click the drop-down or folder icon.
+2. Click Other.
+3. Find and select the downloaded Ubuntu .iso file.
+
+Type:
+Linux
+
+Subtype:
+Ubuntu
+
+Version:
+Ubuntu (64-bit)
+
+IMPORTANT:
+Check “Skip Unattended Installation.”
+
+Why?
+This allows the student to see and perform the Ubuntu installation steps manually.
+
+3. Click Next.
+
+============================================================
+PART 5 – ALLOCATE RAM AND PROCESSORS
+============================================================
+
+Use settings based on the host computer:
+
+For a computer with 8 GB RAM:
+- Base Memory: 4096 MB
+- Processors: 2
+
+For a computer with 16 GB RAM:
+- Base Memory: 6144 MB
+- Processors: 2 or 4
+
+Rules:
+- Keep the resource sliders inside the green area.
+- Do not assign all RAM or all CPU cores to the virtual machine.
+- Windows must still have enough resources to operate.
+
+Click Next.
+
+============================================================
+PART 6 – CREATE THE VIRTUAL HARD DISK
+============================================================
+
+1. Select “Create a Virtual Hard Disk Now.”
+2. Set Virtual Disk Size to 35 GB or 40 GB.
+3. Leave “Pre-allocate Full Size” unchecked.
+
+This creates a dynamically allocated virtual disk. It grows as Ubuntu uses space,
+but it will not exceed the maximum size you selected.
+
+4. Click Next.
+5. Review the VM summary.
+6. Click Finish.
+
+IMPORTANT:
+This virtual disk is a file stored inside Windows. It is not a new physical drive.
+
+============================================================
+PART 7 – REVIEW THE VM SETTINGS
+============================================================
+
+Before starting the VM:
+
+1. Select the Ubuntu VM.
+2. Click Settings.
+
+Check the following:
+
+System:
+- RAM is correct.
+- Processor count is correct.
+- Optical drive and hard disk are available in the boot order.
+
+Display:
+- Graphics Controller: VMSVGA
+- Video Memory: increase to 128 MB when available
+- Leave 3D Acceleration disabled initially if the computer has display problems.
+
+Storage:
+- Confirm that the Ubuntu ISO is attached to the virtual optical drive.
+
+Network:
+- Adapter 1: Enabled
+- Attached to: NAT
+
+3. Click OK.
+
+============================================================
+PART 8 – START THE UBUNTU INSTALLER
+============================================================
+
+1. Select the Ubuntu VM.
+2. Click Start.
+3. Wait for the Ubuntu installer to load.
+
+The wording or order may differ slightly depending on the Ubuntu release.
+Use the following choices:
+
+1. Language:
+   English
+
+2. Accessibility:
+   Keep the default unless accessibility features are needed.
+
+3. Keyboard:
+   English (US), or the correct keyboard layout for the computer.
+
+4. Network:
+   Connect when available.
+   VirtualBox NAT normally provides internet automatically.
+
+5. Choose:
+   Install Ubuntu
+
+6. Installation type:
+   Interactive Installation
+
+7. Application selection:
+   Default Selection
+
+8. Third-party software:
+   Enable the recommended options when internet is available.
+   If the internet is unavailable, installation can continue without them.
+
+============================================================
+PART 9 – SELECT THE VIRTUAL DISK
+============================================================
+
+When asked how Ubuntu should be installed:
+
+1. Choose:
+   Erase disk and install Ubuntu
+
+2. Do not select advanced manual partitioning unless instructed.
+
+IMPORTANT SAFETY REMINDER:
+This option is safe only because Ubuntu is running inside VirtualBox and sees only
+the virtual disk created earlier.
+
+Never choose “Erase disk” during a physical installation unless you fully understand
+which real disk is being erased and all important files have been backed up.
+
+3. Confirm the installation.
+
+============================================================
+PART 10 – CREATE THE UBUNTU ACCOUNT
+============================================================
+
+Enter the following:
+
+Your Name:
+Your full name
+
+Computer Name:
+sa101-ubuntu-surname
+
+Example:
+sa101-ubuntu-juan
+
+Rules for the computer name:
+- Use lowercase letters when possible.
+- Do not use spaces.
+- Use a hyphen instead of a space.
+
+Username:
+Use a simple lowercase username without spaces.
+
+Example:
+nelmar
+
+Password:
+- Create a strong password.
+- Remember it.
+- Do not show or submit it.
+- Do not use the instructor’s example password.
+
+Login option:
+Require my password to log in
+
+============================================================
+PART 11 – TIME ZONE AND INSTALLATION
+============================================================
+
+1. Select the correct time zone.
+2. For the Philippines, select Manila or Asia/Manila.
+3. Review the installation summary.
+4. Click Install.
+5. Wait while Ubuntu copies and configures the files.
+6. Do not close VirtualBox or shut down the computer.
+7. When installation is complete, click Restart Now.
+
+If the message says:
+“Please remove the installation medium, then press Enter”
+
+Do the following:
+1. In the VirtualBox VM window, click Devices.
+2. Click Optical Drives.
+3. Choose “Remove disk from virtual drive,” if available.
+4. Press Enter.
+
+If Ubuntu returns to the installer after restarting:
+1. Shut down the VM.
+2. Open Settings > Storage.
+3. Select the Ubuntu ISO under the optical drive.
+4. Click the small disk icon.
+5. Choose “Remove Disk from Virtual Drive.”
+6. Start the VM again.
+
+============================================================
+PART 12 – FIRST LOGIN
+============================================================
+
+1. Wait for the Ubuntu login screen.
+2. Select the account created during installation.
+3. Enter the password.
+4. Complete any first-start welcome screens.
+5. Skip optional online-account setup unless required by the instructor.
+6. Confirm that the Ubuntu desktop loads properly.
+
+============================================================
+PART 13 – UPDATE UBUNTU
+============================================================
+
+Open the Terminal:
+
+Keyboard shortcut:
+Ctrl + Alt + T
+
+Run the commands one at a time:
+
+sudo apt update
+
+sudo apt upgrade -y
+
+sudo snap refresh
+
+Important:
+When entering the password after a sudo command, no dots, stars, or letters appear.
+This is normal. Type the password carefully and press Enter.
+
+After updates finish, restart Ubuntu:
+
+sudo reboot
+
+============================================================
+PART 14 – INSTALL VIRTUALBOX GUEST ADDITIONS
+============================================================
+
+Guest Additions improves:
+- Screen resolution
+- Automatic window resizing
+- Mouse integration
+- Shared clipboard
+- General VM usability
+
+Method 1 – Graphical method:
+
+1. Start Ubuntu and log in.
+2. In the VirtualBox VM menu, click Devices.
+3. Click “Insert Guest Additions CD Image.”
+4. Ubuntu may display a prompt asking to run the software.
+5. Click Run.
+6. Enter the Ubuntu password.
+7. Wait for the installation to complete.
+8. Restart Ubuntu.
+
+If no Run prompt appears, use the fallback method below.
+
+Method 2 – Terminal fallback:
+
+1. Open Terminal.
+2. Install the required packages:
+
+sudo apt install build-essential dkms linux-headers-$(uname -r) -y
+
+3. In the VirtualBox menu, click:
+   Devices > Insert Guest Additions CD Image
+
+4. Open the Files application and open the mounted VBox_GAs disk.
+5. Open a terminal in that folder when available.
+6. Run:
+
+sudo sh ./VBoxLinuxAdditions.run
+
+7. Wait for it to finish.
+8. Restart Ubuntu:
+
+sudo reboot
+
+After restart:
+- Click View > Auto-resize Guest Display.
+- Optional: Devices > Shared Clipboard > Bidirectional.
+- Optional: Devices > Drag and Drop > Bidirectional.
+
+============================================================
+PART 15 – VERIFY THE INSTALLATION
+============================================================
+
+Open Terminal and run the following commands.
+
+1. Check the logged-in user:
+
+whoami
+
+2. Check the computer name and operating-system information:
+
+hostnamectl
+
+3. Check the IP address:
+
+ip a
+
+4. Check the virtual-disk and partition layout:
+
+lsblk
+
+5. Check disk usage:
+
+df -h
+
+6. Check RAM usage:
+
+free -h
+
+7. Test internet connectivity by IP address:
+
+ping -c 4 8.8.8.8
+
+8. Test DNS name resolution:
+
+ping -c 4 ubuntu.com
+
+Expected result:
+- Ubuntu starts without errors.
+- The user can log in.
+- An IP address is displayed.
+- The virtual disk is detected.
+- Ping receives replies when internet is available.
+- Updates complete without critical errors.
+
+To stop a running ping command that does not end:
+Press Ctrl + C.
+
+============================================================
+PART 16 – CREATE A CLEAN SNAPSHOT
+============================================================
+
+A snapshot provides a restore point for the virtual machine.
+
+1. Shut down Ubuntu properly:
+   Power Menu > Power Off > Power Off
+
+2. Return to VirtualBox Manager.
+3. Select the Ubuntu VM.
+4. Open the Snapshots section.
+5. Click Take.
+6. Snapshot Name:
+   Clean-Install-Updated
+
+7. Description:
+   Ubuntu installed, updated, tested, and Guest Additions installed.
+
+8. Click OK.
+
+Do not delete this snapshot unless instructed.
+
+============================================================
+PART 17 – REQUIRED STUDENT DOCUMENTATION
+============================================================
+
+Submit an OS Installation Report containing:
+
+1. Student name and section
+2. VM name
+3. Ubuntu version
+4. RAM allocation
+5. Processor allocation
+6. Virtual-disk size
+7. Network mode
+8. Screenshot of VirtualBox VM settings
+9. Screenshot of successful Ubuntu login or desktop
+10. Screenshot of the hostnamectl result
+11. Screenshot of the ip a result
+12. Screenshot of the lsblk result
+13. Screenshot of the successful ping test
+14. One problem encountered
+15. The solution attempted
+16. Short reflection:
+    “What did I learn from installing an operating system in a virtual machine?”
+
+Do not include the Ubuntu password in the report.
+
+============================================================
+PART 18 – PROPER SHUTDOWN
+============================================================
+
+Always shut down Ubuntu properly:
+
+1. Click the Power menu inside Ubuntu.
+2. Click Power Off.
+3. Confirm Power Off.
+4. Wait until the VM window closes.
+
+Avoid clicking “Power Off the Machine” in VirtualBox unless the guest OS is frozen.
+It is similar to suddenly unplugging a real computer and may cause file corruption.
+
+============================================================
+COMMON PROBLEMS AND SAFE SOLUTIONS
+============================================================
+
+PROBLEM 1:
+Ubuntu (64-bit) is missing or the VM cannot start.
+
+Possible cause:
+Hardware virtualization is disabled.
+
+Safe action:
+Check Task Manager > Performance > CPU > Virtualization.
+If disabled, inform the instructor.
+
+------------------------------------------------------------
+
+PROBLEM 2:
+“No bootable medium found.”
+
+Possible cause:
+The Ubuntu ISO is not attached.
+
+Solution:
+1. Shut down the VM.
+2. Open Settings > Storage.
+3. Select the optical drive.
+4. Attach the downloaded Ubuntu ISO.
+5. Start the VM.
+
+------------------------------------------------------------
+
+PROBLEM 3:
+Ubuntu installer starts again after installation.
+
+Possible cause:
+The ISO is still attached.
+
+Solution:
+Remove the ISO from the virtual optical drive and restart the VM.
+
+------------------------------------------------------------
+
+PROBLEM 4:
+No internet connection.
+
+Solution:
+1. Shut down the VM.
+2. Open Settings > Network.
+3. Enable Adapter 1.
+4. Set “Attached to” as NAT.
+5. Start Ubuntu.
+6. Run:
+   ip a
+   ping -c 4 8.8.8.8
+   ping -c 4 ubuntu.com
+
+------------------------------------------------------------
+
+PROBLEM 5:
+The VM is very slow.
+
+Possible causes:
+- Too little RAM
+- Too many processors assigned
+- Many Windows applications are open
+- Host computer has limited storage or memory
+
+Safe actions:
+- Close unnecessary Windows applications.
+- Use 4096 MB RAM for an 8 GB host.
+- Use 6144 MB RAM for a 16 GB host.
+- Use 2 processors first.
+- Do not exceed the green area in VirtualBox.
+
+------------------------------------------------------------
+
+PROBLEM 6:
+Black screen or display problem.
+
+Safe actions:
+1. Shut down the VM.
+2. Open Settings > Display.
+3. Set Graphics Controller to VMSVGA.
+4. Set Video Memory to 128 MB when available.
+5. Disable 3D Acceleration.
+6. Start the VM again.
+
+------------------------------------------------------------
+
+PROBLEM 7:
+The mouse or keyboard is captured by the VM.
+
+Solution:
+Press the VirtualBox Host Key.
+
+Default Host Key on Windows:
+Right Ctrl
+
+------------------------------------------------------------
+
+PROBLEM 8:
+The student forgot the Ubuntu password.
+
+Safe action:
+Do not guess repeatedly or use unauthorized password-bypass methods.
+Inform the instructor and follow the approved recovery or reinstall procedure.
+
+============================================================
+ACTIVITY COMPLETION CHECKLIST
+============================================================
+
+[ ] Virtualization is enabled.
+[ ] Ubuntu ISO was downloaded from the official Ubuntu website.
+[ ] VirtualBox was downloaded from the official VirtualBox website.
+[ ] VirtualBox was installed successfully.
+[ ] A new Ubuntu VM was created.
+[ ] Skip Unattended Installation was selected.
+[ ] RAM and CPU were allocated safely.
+[ ] A 35–40 GB virtual disk was created.
+[ ] Network mode is NAT.
+[ ] Ubuntu was installed on the virtual disk.
+[ ] The account and computer name were created.
+[ ] Ubuntu started and login worked.
+[ ] Ubuntu was updated.
+[ ] Guest Additions was installed.
+[ ] Network, disk, and RAM were tested.
+[ ] A clean snapshot was created.
+[ ] The installation report was completed.
